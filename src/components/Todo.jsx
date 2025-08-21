@@ -25,8 +25,7 @@ export default function Todo() {
     });
 
     const [showAddListForm, setShowAddListForm] = useState(false);
-    const [addList, setAddList] = useState("");
-
+    
     useEffect(() => {
         localStorage.setItem("tasks", JSON.stringify(tasks));
     }, [tasks]);
