@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Form from "./Form";
 import TaskList from "./TaskList";
 import { moveTaskUpAndDown } from "../utils/taskHelpers";
+import AddListForm from "./AddListForm";
 
 export default function Todo() {
     const [tasks, setTasks] = useState(() => {
@@ -23,7 +24,7 @@ export default function Todo() {
         }
     });
 
-    const [showAddList, setShowAddList] = useState(false);
+    const [showAddListForm, setShowAddListForm] = useState(false);
     const [addList, setAddList] = useState("");
 
     useEffect(() => {
@@ -34,16 +35,11 @@ export default function Todo() {
         localStorage.setItem("lists", JSON.stringify(lists));
     }, [lists]);
 
-    const addNewList = (e) => {
-        e.preventDefault();
-        if(!addList.trim()) {
-            setShowAddList(false);
-            return;
-        } 
-        setLists([...lists, addList]);
-        setAddList("");
-        setShowAddList(false);
-        setCurrentList(addList);
+    const addNewList = (name) => {
+        if(lists.includes(name)) return;
+        setLists([...lists, name]);
+        setCurrentList(name);
+        setShowAddListForm(false);
     }
 
     const addTask = (title) => {
@@ -99,17 +95,12 @@ export default function Todo() {
         <div className="todo">
             <h1>My Todo List</h1>
             <Form onAddTask={addTask} />
-            <button className="add-list-btn" onClick={() => setShowAddList(true)}>+ Add List</button>
-            {showAddList && 
-                <form onSubmit={addNewList}>
-                    <input 
-                        type="text"
-                        value={addList}
-                        onChange={(e) => setAddList(e.target.value)}
-                        placeholder="Add a new tasks list..."
-                    />
-                    <button type="submit">Save</button>
-                </form>
+            <button className="add-list-btn" onClick={() => setShowAddListForm(true)}>+ Add List</button>
+            {showAddListForm && 
+                <AddListForm 
+                    onAddList={addNewList}
+                    onCloseInput={() => setShowAddListForm(false)}
+                />
             }
             <select name="select-list" id="select-list" value={currentList} onChange={(e) => setCurrentList(e.target.value)}>
                 <option value="all">Show All</option>
