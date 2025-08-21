@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Form from "./Form";
 import TaskList from "./TaskList";
+import { moveTaskUpAndDown } from "../utils/taskHelpers";
 
 export default function Todo() {
     const [tasks, setTasks] = useState(() => {
@@ -89,20 +90,7 @@ export default function Todo() {
     }
 
     const moveUpAndDown = (id, direction) => {
-        const updatedTasks = [...tasks];
-        const taskIndex = updatedTasks.findIndex(task => task.id === id);
-
-        // I'll handle this here just for now
-        if(taskIndex === 0 && direction === "up") return;
-        if(taskIndex === tasks.length -  1 && direction === "down") return;
-
-        if(direction === "up") {
-            [updatedTasks[taskIndex - 1], updatedTasks[taskIndex]] = [updatedTasks[taskIndex], updatedTasks[taskIndex - 1]];
-        } else {
-            [updatedTasks[taskIndex], updatedTasks[taskIndex + 1]] = [updatedTasks[taskIndex + 1], updatedTasks[taskIndex]];
-        }
-
-        setTasks(updatedTasks);
+        setTasks((prevTask) => moveTaskUpAndDown(id, direction, prevTask));
     }
 
     const visibleTasks = currentList === "all" ? tasks : tasks.filter(task => task.list === currentList);
