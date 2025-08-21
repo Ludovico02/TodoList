@@ -3,6 +3,7 @@ import Form from "./Form";
 import TaskList from "./TaskList";
 import { moveTaskUpAndDown } from "../utils/taskHelpers";
 import AddListForm from "./AddListForm";
+import ListSelector from "./ListSelector";
 
 export default function Todo() {
     const [tasks, setTasks] = useState(() => {
@@ -25,7 +26,7 @@ export default function Todo() {
     });
 
     const [showAddListForm, setShowAddListForm] = useState(false);
-    
+
     useEffect(() => {
         localStorage.setItem("tasks", JSON.stringify(tasks));
     }, [tasks]);
@@ -101,13 +102,12 @@ export default function Todo() {
                     onCloseInput={() => setShowAddListForm(false)}
                 />
             }
-            <select name="select-list" id="select-list" value={currentList} onChange={(e) => setCurrentList(e.target.value)}>
-                <option value="all">Show All</option>
-                {lists.map((list, index) => (
-                    <option key={index} value={list}>{list}</option>
-                ))}
-            </select>
-            <button className="remove-list-btn" onClick={() => deleteCurrentList()} disabled={currentList === "all"}>Remove List</button>
+            <ListSelector 
+                lists={lists}
+                currentList={currentList}
+                onSelect={setCurrentList}
+                onDeleteCurrentList={deleteCurrentList}
+            />
             <TaskList 
                 tasks={visibleTasks}
                 onDeleteTask={deleteTask}
