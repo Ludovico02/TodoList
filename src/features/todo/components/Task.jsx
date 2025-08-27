@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../css/Task.css"
+import "../../../css/Task.css"
 
 export function Task({ task, onUpdateDescription, onCheckTask, handleMoveUpAndDown, onDeleteTask, isFirst, isLast }) {
     const [isOpen, setIsOpen] = useState(false);
