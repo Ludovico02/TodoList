@@ -1,4 +1,15 @@
-export default function Form({ taskType, onSelect }) {
+import { useState } from "react";
+
+export default function Form({ taskType, onSelect, onAddHabit }) {
+    const [title, setTitle] = useState("");
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if(!title.trim()) return;
+        onAddHabit(title);
+        setTitle("");
+    }
+
     return (
         <form onSubmit={handleSubmit}>
             <input 
