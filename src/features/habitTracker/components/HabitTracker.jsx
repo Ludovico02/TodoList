@@ -53,6 +53,24 @@ export default function HabitTracker() {
         )))
     }
 
+    const onIncreaseHabitCompletition = (id) => {
+        const updatedHabits = [...habits];
+        const findHabitIndex = updatedHabits.findIndex(habit => habit.id === id);
+
+        updatedHabits[findHabitIndex].completed++;
+
+        setHabits(updatedHabits);
+    }
+
+    const onDecreaseHabitCompletition = (id) => {
+        const updatedHabits = [...habits];
+        const findHabitIndex = updatedHabits.findIndex(habit => habit.id === id);
+
+        updatedHabits[findHabitIndex].completed--;
+
+        setHabits(updatedHabits);
+    }
+
     return (
         <div className="habit-tracker">
             <Form 
@@ -73,6 +91,10 @@ export default function HabitTracker() {
                     /> :
                     <MonthlyHabit 
                         key={index} 
+                        habit={habit}
+                        onDelete={onDeleteHabit}
+                        onIncrease={onIncreaseHabitCompletition}
+                        onDecrease={onDecreaseHabitCompletition}
                     />
             ))}
         </div>
