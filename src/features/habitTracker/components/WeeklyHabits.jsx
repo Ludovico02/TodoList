@@ -1,9 +1,10 @@
-export default function WeeklyHabit({ habit, onToggleDay }) {
+export default function WeeklyHabit({ habit, onToggleDay, onDelete }) {
     const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
     return (
         <fieldset>
             <legend>{habit.name}</legend>
+            <button onClick={() => onDelete(habit.id)}>Delete</button>
             {weekDays.map((day, index) => (
                 <div key={index}>
                     <input 

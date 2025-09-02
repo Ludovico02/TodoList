@@ -40,6 +40,10 @@ export default function HabitTracker() {
         setHabits([...habits, newHabit]);
     }
 
+    const onDeleteHabit = (id) => {
+        setHabits(habits.filter(habit => habit.id !== id));
+    }
+
     const toggleWeeklyDay = (id, day) => {
         setHabits(habits.map((habit) => (
             habit.id === id ? {
@@ -61,7 +65,8 @@ export default function HabitTracker() {
                     <WeeklyHabit 
                         key={index} 
                         habit={habit} 
-                        onToggleDay={toggleWeeklyDay} 
+                        onToggleDay={toggleWeeklyDay}
+                        onDelete={onDeleteHabit}
                     /> : habit.type === "Daily" ? 
                     <DailyHabit 
                         key={index} 
